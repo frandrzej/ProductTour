@@ -16,8 +16,16 @@
 
 #define SHOW_ZONE NO
 
+@interface CRBubble ()
+
+@property (nonatomic, strong) UILabel *descriptionLabel;
+
+@end
+
 @implementation CRBubble
-@synthesize fontName;
+
+
+@synthesize fontName, descriptionLabel;
 
 #pragma mark - Constructor
 
@@ -38,9 +46,9 @@
         [self setBackgroundColor:[UIColor clearColor]];
         
         if(!fontName) {
-            fontName= [[UIFont systemFontOfSize:12] fontName]; 
+            fontName= [[UIFont systemFontOfSize:12] fontName];
         }
-
+        
         float actualXPosition = [self offsets].width+CR_PADDING;
         float actualYPosition = [self offsets].height+CR_PADDING;
         float actualWidth =self.frame.size.width;
@@ -69,9 +77,9 @@
             actualWidth =self.frame.size.width;
             actualHeight =CR_DESCRIPTION_FONT_SIZE;
             
-            UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(actualXPosition, actualYPosition, actualWidth, actualHeight+CR_ARROW_SPACE)];
+            descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(actualXPosition, actualYPosition, actualWidth, actualHeight+CR_ARROW_SPACE)];
             [descriptionLabel setTextColor:COLOR_DARK_GRAY];
-            [descriptionLabel setFont:[UIFont systemFontOfSize:CR_DESCRIPTION_FONT_SIZE]];
+            [descriptionLabel setFont:[UIFont fontWithName:fontName size:CR_DESCRIPTION_FONT_SIZE]];
             [descriptionLabel setText:descriptionLine];
             [descriptionLabel setBackgroundColor:[UIColor clearColor]];
             [self addSubview:descriptionLabel];
@@ -104,8 +112,32 @@
 -(void)setFontName:(NSString *)theFontName
 {
     fontName=theFontName;
-    [titleLabel setFont:[UIFont fontWithName:fontName size:CR_TITLE_FONT_SIZE]];
     
+    CGFloat fontSize = CR_TITLE_FONT_SIZE;
+    if(self.titleFontSize)
+        fontSize = self.titleFontSize.floatValue;
+    [titleLabel setFont:[UIFont fontWithName:fontName size:fontSize]];
+    
+    fontSize = CR_TITLE_FONT_SIZE;
+    if(self.descriptionFontsize)
+        fontSize = self.descriptionFontsize.floatValue;
+    [descriptionLabel setFont:[UIFont fontWithName:fontName size:fontSize]];
+}
+
+-(void)setTitleFontSize:(NSNumber *)titleFontSize
+{
+    _titleFontSize = titleFontSize;
+    if(!fontName)
+        fontName= [[UIFont systemFontOfSize:CR_TITLE_FONT_SIZE] fontName];
+    [titleLabel setFont:[UIFont fontWithName:fontName size:titleFontSize.floatValue]];
+}
+
+-(void)setDescriptionFontSize:(NSNumber *)descriptionFontSize
+{
+    _descriptionFontsize = descriptionFontSize;
+    if(!fontName)
+        fontName= [[UIFont systemFontOfSize:CR_DESCRIPTION_FONT_SIZE] fontName];
+    [descriptionLabel setFont:[UIFont fontWithName:fontName size:descriptionFontSize.floatValue]];
 }
 
 #pragma mark - Drawing methods
