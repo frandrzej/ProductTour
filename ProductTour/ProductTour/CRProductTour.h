@@ -12,7 +12,11 @@
 @interface CRProductTour : UIView
 
 @property (nonatomic, strong)  NSMutableArray *bubblesArray;
+@property (nonatomic, assign) BOOL visible;
+
 -(void)setBubbles:(NSMutableArray*)arrayOfBubbles;
--(void)setVisible:(bool)visible;
--(BOOL)isVisible;
+-(BOOL)areToursVisible;
+-(void)setToursVisible:(BOOL)visible;
+
+
 @end

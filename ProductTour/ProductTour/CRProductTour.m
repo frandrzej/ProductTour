@@ -11,6 +11,7 @@
 #define ANIMATION_DURATION 0.25
 
 @implementation CRProductTour
+
 static BOOL tourVisible=YES;
 static BOOL activeAnimation=YES; //Active bubbles translations and animatins for dismiss/appear
 static NSMutableArray *arrayOfAllocatedTours;
@@ -49,13 +50,25 @@ static NSMutableArray *arrayOfAllocatedTours;
 
 -(void)setVisible:(bool)visible
 {
-    tourVisible=visible;
-    [self refreshBubblesVisibility];
+    _visible=visible;
+    for (CRBubble *bubble in self.bubblesArray) {
+        if(self.visible) {
+            [self makeAppearAnimation:bubble];
+        } else {
+            [self makeDismissAnimation:bubble];
+        }
+    }
 }
 
--(BOOL)isVisible
+-(BOOL)areToursVisible
 {
     return tourVisible;
+}
+
+-(void)setToursVisible:(BOOL)visible
+{
+    tourVisible = visible;
+    [self refreshAllToursVisibility];
 }
 
 -(void)makeDismissAnimation:(CRBubble*)bubble;
@@ -117,24 +130,14 @@ static NSMutableArray *arrayOfAllocatedTours;
     [UIView commitAnimations];
 }
 
--(void) refreshBubblesVisibility
+-(void) refreshAllToursVisibility
 {
-    for(CRProductTour *tour in arrayOfAllocatedTours)
-    {
-        for (CRBubble *bubble in tour.bubblesArray)
-        {
-            if(tourVisible)
-            {
-                
+    for(CRProductTour *tour in arrayOfAllocatedTours) {
+        for (CRBubble *bubble in tour.bubblesArray) {
+            if(tourVisible) {
                 [self makeAppearAnimation:bubble];
-                
-                
-            }
-            else
-            {
-                
+            } else {
                 [self makeDismissAnimation:bubble];
-                
             }
         }
     }

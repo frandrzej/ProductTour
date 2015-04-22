@@ -42,6 +42,8 @@
 }
 
 - (IBAction)toogleHelpAction:(id)sender {
-    [productTourView setVisible:![productTourView isVisible]];
+    [productTourView setVisible:![productTourView visible]];
 }
+
+
 @end
