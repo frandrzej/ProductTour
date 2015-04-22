@@ -25,7 +25,7 @@ static NSMutableArray *arrayOfAllocatedTours;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setUserInteractionEnabled:NO];
         if(arrayOfAllocatedTours==nil)
-        arrayOfAllocatedTours = [[NSMutableArray alloc]init];
+            arrayOfAllocatedTours = [[NSMutableArray alloc]init];
         [arrayOfAllocatedTours addObject:self];
     }
     
@@ -36,13 +36,10 @@ static NSMutableArray *arrayOfAllocatedTours;
 {
     self.bubblesArray=arrayOfBubbles;
     
-    
-    for (CRBubble *bubble in self.bubblesArray)
-    {
-        if(bubble.attachedView!=nil)
-        {
+    for (CRBubble *bubble in self.bubblesArray) {
+        if(bubble.attachedView!=nil) {
             [self addSubview:bubble];
-            if(!tourVisible)
+            if(!self.visible)
                 [bubble setAlpha:0.0];
         }
     }
